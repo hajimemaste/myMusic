@@ -239,7 +239,7 @@ a {
   }
 }
 
-@media (max-width: 412px) {
+@media (max-width: 550px) {
   .music_lyris {
     display: none;
   }
