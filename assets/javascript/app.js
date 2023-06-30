@@ -8,6 +8,8 @@ var timeSongs = $("#music_run");
 
 var indexSong = 0;
 
+var checkRandom = false;
+
 function start() {
   getApi(songs);
   getLyrics(songs);
@@ -96,6 +98,10 @@ function playing() {
 
 function nextSong() {
   $(".btn-next").onclick = () => {
+    if ($(".btn-random").classList.contains("active")) {
+      indexSong = Math.floor(Math.random() * songs.length);
+    }
+
     var index = ++indexSong;
 
     if (index >= songs.length) index = 0;
@@ -109,6 +115,9 @@ function nextSong() {
 
 function prevSong() {
   $(".btn-prev").onclick = () => {
+    if ($(".btn-random").classList.contains("active")) {
+      indexSong = Math.floor(Math.random() * songs.length);
+    }
     var index = --indexSong;
 
     if (index <= 0) index = songs.length - 1;
@@ -122,13 +131,7 @@ function prevSong() {
 
 function randomSong() {
   $(".btn-random").onclick = () => {
-    audio.ontimeupdate = () => {
-      if (timeSongs.value == 100) {
-        var index = Math.floor(Math.random() * songs.length);
-        renderMusic(songs, index);
-      }
-    };
-    playing();
+    !checkRandom ? (checkRandom = true) : (checkRandom = false);
 
     $(".btn-random").classList.toggle("active");
   };
@@ -158,11 +161,12 @@ function timeSong() {
   audio.ontimeupdate = () => {
     timeSongs.value = (audio.currentTime / audio.duration) * 100;
 
-    if (timeSongs.value == 100) {
-      var index = ++indexSong;
+    if (audio.currentTime == audio.duration) {
+      var index = checkRandom
+        ? Math.floor(Math.random() * songs.length)
+        : ++indexSong;
 
       if (index >= songs.length) index = 0;
-
       renderMusic(songs, index);
       playing();
     }
@@ -187,15 +191,13 @@ function changeTimeSong() {
   };
 }
 
-// end Song
+$$(".item_music i").forEach((item, index) => {
+  item.onclick = () => {
+    $(".music_lyris").classList.add("show");
+    document.body.style.overflow = "hidden";
+  };
+});
 
-// function handleEndSong() {
-//   audio.ontimeupdate = () => {
-//     if (audio.currentTime == audio.duration) {
-//       var index = ++indexSong;
-//       if (index >= songs.length) index = 0;
-//       renderMusic(songs, index);
-//       playing();
-//     }
-//   };
-// }
+$(".music_lyris span").onclick = () => {
+  $(".music_lyris").classList.remove("show");
+};

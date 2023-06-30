@@ -163,6 +163,7 @@ a {
 .music_name {
   color: rgb(235, 145, 42);
   padding-bottom: 20px;
+  text-align: center;
 }
 
 #music_run {
@@ -242,6 +243,29 @@ a {
 @media (max-width: 550px) {
   .music_lyris {
     display: none;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+    background: url(https://cdn.pixabay.com/photo/2021/12/02/02/59/mountains-6839521_1280.jpg)
+      no-repeat left 50% / cover;
+    color: white;
+    border-radius: 0;
+    text-shadow: 0 1px #000;
+    text-align: center;
+  }
+
+  .music_lyris h2 {
+    padding-bottom: 15px;
+  }
+
+  .music_lyris.show {
+    display: block;
   }
 
   .main {
@@ -272,7 +296,6 @@ a {
 
   .music_name {
     padding-bottom: 5px;
-    text-align: center;
   }
 
   .music_cd {
